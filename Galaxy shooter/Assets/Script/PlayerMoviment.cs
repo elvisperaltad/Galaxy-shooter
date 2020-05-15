@@ -9,10 +9,20 @@ public class PlayerMoviment : MonoBehaviour
 
     [SerializeField]
     private GameObject prefab;
+    private float _canFire = 0;
+    [SerializeField]
+    private float _fireCoolDown = 1f;
+    [SerializeField]
+    private int _live = 3;
+    [SerializeField]
+    private GameObject LaserContainer;
+    private Spawn Spawn_Manager; 
+
     
     void Start()
     {
-        transform.position = new Vector3 (0, -4.899429f, 0);    
+        transform.position = new Vector3 (0, -4.899429f, 0);
+        Spawn_Manager = GameObject.Find("Spawn_Manager").GetComponent<Spawn>();
     }
 
     // Update is called once per frame
@@ -27,10 +37,12 @@ public class PlayerMoviment : MonoBehaviour
     void laserPrefab()
     {
         Vector3 posicion = new Vector3(0, 1, 0);
-       // if (Input.GetKeyDown(KeyCode.Space))
-       // {
-            Instantiate(prefab, transform.position + posicion , Quaternion.identity);
-      //  }
+        if (Time.time > _canFire)
+        {
+            _canFire = Time.time + _fireCoolDown ;
+          var newLaser =  Instantiate(prefab, transform.position + posicion , Quaternion.identity);
+            newLaser.transform.parent = LaserContainer.transform;
+        }
         
     }
 
@@ -52,6 +64,17 @@ public class PlayerMoviment : MonoBehaviour
         else if (transform.position.x < -11.17799)
         {
             transform.position = new Vector3(10.11827f, transform.position.y, 0);
+        }
+    }
+
+    public void damage()
+    {
+        _live--;
+
+        if(_live < 1)
+        {
+            Spawn_Manager.onPLayerDeath();
+            Destroy(this.gameObject);
         }
     }
 }

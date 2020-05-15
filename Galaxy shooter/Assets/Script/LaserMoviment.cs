@@ -18,5 +18,10 @@ public class LaserMoviment : MonoBehaviour
     {
         transform.Translate(0,speed * Time.deltaTime,0);
 
+        if(transform.position.y > 4)
+        {
+            Destroy(this.gameObject);
+        }
+
     }
 }
