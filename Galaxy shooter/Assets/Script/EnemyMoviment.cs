@@ -10,7 +10,7 @@ public class EnemyMoviment : MonoBehaviour
     private float _speed;
     int damage = 0;
     public int _EnemyLive = 1;
-    private bool stopPawn = true;
+   
 
 
     private void Start()
@@ -28,15 +28,14 @@ public class EnemyMoviment : MonoBehaviour
 
     void randomSpawn()
     {
-        if (stopPawn == true)
-        {
+       
             Vector3 position = new Vector3(Random.Range(-6, 6), 6, 0);
             if (transform.position.y < -4.87f)
             {
                 //transform.position = position;
                 Destroy(this.gameObject);
             }
-        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,11 +60,13 @@ public class EnemyMoviment : MonoBehaviour
             if (damage == _EnemyLive) {
 
                 Destroy(this.gameObject);
-                stopPawn = false;
+                
 
             }
             
         }
 
     }
+
+ 
 }
